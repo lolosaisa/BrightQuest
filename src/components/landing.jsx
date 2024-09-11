@@ -3,20 +3,17 @@ import Web3 from 'web3';
 import { getPaymasterParams, ZKsyncPlugin } from 'web3-plugin-zksync';
 import { APPROVAL_TOKEN, PAYMASTER, USDC_L1 } from './constants.mjs';
 import { ZKsyncWallet } from 'web3-plugin-zksync';
-// import './TransactionComponent.css'; // Import the CSS for styling
 
 const TransactionComponent = () => {
   const [loading, setLoading] = useState(false);
   const [transactionHash, setTransactionHash] = useState('');
   const [error, setError] = useState('');
-  const [userId, setUserId] = useState('');
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [popupContent, setPopupContent] = useState({});
+
+  const [userId, setUserId] = useState('')
 
   const handleTransaction = async () => {
     setLoading(true);
     setError('');
-    setPopupVisible(false); // Hide the popup initially
     try {
       // initialize web3 and plugin
       const web3 = new Web3('https://eth-sepolia.g.alchemy.com/v2/VCOFgnRGJF_vdAY2ZjgSksL6-6pYvRkz');
@@ -33,8 +30,6 @@ const TransactionComponent = () => {
       console.log('USDC L1 contract address 0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238');
       console.log('USDC L2 contract address', USDC_L2);
 
-      setUserId(wallet);
-
       // Get balances before transaction
       const balance_paymaster_eth_before = await l2Provider.getBalance(PAYMASTER);
       const balance_paymaster_approvalToken_before = await l2Provider.getTokenBalance(APPROVAL_TOKEN, PAYMASTER);
@@ -48,7 +43,7 @@ const TransactionComponent = () => {
       const tx = await wallet.transfer({
         token: APPROVAL_TOKEN,
         to: random.getAddress(),
-        amount: amountOfERC20ToTransfer,
+        amount: amountOfERC20ToTransfer, // number of tokens you are transferring
         paymasterParams: getPaymasterParams(PAYMASTER, {
           type: 'ApprovalBased',
           token: APPROVAL_TOKEN,
@@ -87,19 +82,6 @@ const TransactionComponent = () => {
       console.log(balance_paymaster_approvalToken_before, 'Paymaster Approval Token before:');
       console.log(balance_paymaster_approvalToken_after, 'Paymaster Approval Token after(+1)');
 
-      // Update popup content
-      setPopupContent({
-        transactionHash: result.transactionHash,
-        senderId: wallet.getAddress(),
-        senderEthBefore: balance_sender_eth_before,
-        senderEthAfter: balance_sender_eth_after,
-        receiverUsdcBefore: balance_receiver_usdc_before,
-        receiverUsdcAfter: balance_receiver_usdc_after,
-        approvalTokenBefore: balance_sender_approval_token_before,
-        approvalTokenAfter: balance_sender_approval_token_after
-      });
-      setPopupVisible(true); // Show the popup
-
     } catch (err) {
       console.error('Transaction error', err);
       setError('An error occurred during the transaction.');
@@ -125,22 +107,6 @@ const TransactionComponent = () => {
                 <p><span className='font-bolding'>Sender Id</span></p>
             </div>
         </div>
-
-        {/* Popup Card */}
-        {popupVisible && (
-          <div className="popup-card">
-            <button className="popup-close" onClick={() => setPopupVisible(false)}>✖</button>
-            <h2>Transaction Details</h2>
-            <p><span className='font-bolding'>Transaction Hash:</span> {popupContent.transactionHash}</p>
-            <p><span className='font-bolding'>Sender ID:</span> {popupContent.senderId}</p>
-            <p><span className='font-bolding'>Sender ETH Before:</span> {popupContent.senderEthBefore}</p>
-            <p><span className='font-bolding'>Sender ETH After:</span> {popupContent.senderEthAfter}</p>
-            <p><span className='font-bolding'>Receiver USDC Before:</span> {popupContent.receiverUsdcBefore}</p>
-            <p><span className='font-bolding'>Receiver USDC After:</span> {popupContent.receiverUsdcAfter}</p>
-            <p><span className='font-bolding'>Approval Token Before:</span> {popupContent.approvalTokenBefore}</p>
-            <p><span className='font-bolding'>Approval Token After:</span> {popupContent.approvalTokenAfter}</p>
-          </div>
-        )}
     </div>
   );
 };

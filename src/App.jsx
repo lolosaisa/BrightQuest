@@ -8,6 +8,7 @@ const App = () => {
   return (
       <Routes>
         <Route path="/" exact element={<LandingPage />} />
+        <Route path="/" exact element={<Signup />} />
       </Routes>
   );
 };
