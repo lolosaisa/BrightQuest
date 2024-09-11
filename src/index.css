@@ -60,12 +60,17 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 .card{
-  background: #4a4a4a;
+  background: #e3dddd;
   padding: 10px;
-  color: #fff;
+  color: #272323;
   border-radius: 7px;
   margin-top: 20px;
   padding: 20px 40px;
+}
+.background{
+  box-sizing: cover;
+  height:fit-content;
+  width:fit-content;
 }
 
 @media (prefers-color-scheme: light) {
@@ -135,6 +140,30 @@ button:focus-visible {
   top: 10px;
   right: 10px;
 }
+
+/* Footer Section */
+.footer {
+  display: flex; /* Use flexbox to arrange items in a line */
+  justify-content: center; /* Center the images horizontally */
+  align-items: center; /* Center the images vertically */
+  gap: 10px; /* Space between the images */
+  padding: 20px; /* Optional padding around the footer */
+  background-color: #f1f1f1; /* Optional background color for the footer */
+}
+
+.footer-logo img {
+  width: 40px; /* Set the width of the images */
+  height: auto; /* Maintain the aspect ratio */
+  /* Optional: add border radius or other styles */
+}
+
+/* Optional: add responsive styling for smaller screens */
+@media (max-width: 600px) {
+  .footer-logo img {
+    width: 30px; /* Adjust size for smaller screens */
+  }
+}
+
 
 @keyframes slideUp {
   from {

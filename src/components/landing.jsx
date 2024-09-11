@@ -4,6 +4,12 @@ import { getPaymasterParams, ZKsyncPlugin } from 'web3-plugin-zksync';
 import { APPROVAL_TOKEN, PAYMASTER, USDC_L1 } from './constants.mjs';
 import { ZKsyncWallet } from 'web3-plugin-zksync';
 
+// Import the necessary images from assets
+import logo1 from '../assets/chainsafe.jpeg';
+import logo2 from '../assets/ethsafari.jpeg';
+import logo3 from '../assets/zksync.jpeg';
+import background from '../assets/background.jpeg'; // Import background image
+
 const TransactionComponent = () => {
   const [loading, setLoading] = useState(false);
   const [transactionHash, setTransactionHash] = useState('');
@@ -91,7 +97,7 @@ const TransactionComponent = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container background style={{ background: `url(${background})` }}">
         <h1 className="title">Perform zkSync Transaction</h1>
         <div className='buttons'>
             <button className="transaction-button" onClick={handleTransaction} disabled={loading}>
@@ -107,8 +113,22 @@ const TransactionComponent = () => {
                 <p><span className='font-bolding'>Sender Id</span></p>
             </div>
         </div>
+          
+      <footer className="footer">
+        <div className="footer-logo">
+          <img src={logo1} alt="chainsafe" />
+        </div>
+        <div className="footer-logo">
+          <img src={logo2} alt="ethsafari" />
+        </div>
+        <div className="footer-logo">
+          <img src={logo3} alt="zksync" />
+        </div>
+      </footer>
+  
     </div>
-  );
-};
+    
+
+  )};
 
 export default TransactionComponent;
