@@ -1,7 +1,6 @@
 // src/redux/store.js
 import { createStore } from 'redux';
-import authReducer from './auth/authSlice';
-import { configureStore } from '@reduxjs/toolkit';
+import teacherReducer from './reducers';
 
 const store = createStore(teacherReducer);
 
